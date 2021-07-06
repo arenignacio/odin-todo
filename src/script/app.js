@@ -1,13 +1,48 @@
+import '../style/reset.scss';
 import '../style/style.scss';
 
+import item from './modules/TodoItem';
+import Project from './modules/Project';
 import sayHi from './modules/sayHi';
+import subItem from './modules/Item';
 
 if (module.hot) {
 	module.hot.accept();
 }
 
-console.log(sayHi('Siopao'));
+const items = [
+	new item(2, 'Get to the Gym', new Date(1988, 0, 2), 'task', false),
+	new item(
+		3,
+		'Finalize app and check with Odin Project',
+		new Date(2016, 10, 27),
+		'task',
+		false
+	),
+	new item(3, 'Groceries', new Date(2016, 10, 27), 'list', true),
+	new item(1, 'Take Trash Out', new Date(1989, 3, 6), 'note', true),
+	new item(4, 'Deploy app', new Date(2011, 10, 18), 'habit', true),
 
+	new item(3, 'Happy Birthday', new Date(2016, 10, 27), 'eVent', false),
+];
+
+const date = new Date(2011, 12, 18);
+
+const testProject = new Project('P001', 'Project 1');
+items.forEach((item) => {
+	testProject.addItem(item);
+});
+
+testProject.sortItemsByHighestPriority();
+testProject.sortItemsByType();
+
+const groceries = testProject.getAllItems()[1];
+groceries.addSubItem(new subItem(1, 'Hotdog'));
+groceries.addSubItem(new subItem(2, 'Pajamas'));
+groceries.completeSubItem(1);
+groceries.removeSubItem(0);
+
+console.table(testProject.getAllItems());
 /* 
 GOAL: Create TO-DO List
 Requirements: 
